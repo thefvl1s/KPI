@@ -10,7 +10,7 @@
 
 3\. \*\*Author\*\* (Автор): id, name, country.
 
-4\. \*\*Order\*\* (Замовлення): id, order\_date, status.
+4\. \*\*Order\*\* (Замовлення): id, order\_date, status, total\_amount.
 
 5\. \*\*OrderItem\*\* (Позиція замовлення): quantity, price\_at\_purchase.
 

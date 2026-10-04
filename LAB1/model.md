@@ -44,6 +44,8 @@ erDiagram
 
 &#x20;       string status
 
+&#x20;       float total\_amount
+
 &#x20;       int customer\_id FK
 
 &#x20;   }
