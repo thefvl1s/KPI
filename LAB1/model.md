@@ -18,7 +18,7 @@ erDiagram
 
 &#x20;       string title
 
-&#x20;       float price
+&#x20;       DECIMAL price
 
 &#x20;   }
 
@@ -44,7 +44,7 @@ erDiagram
 
 &#x20;       string status
 
-&#x20;       float total\_amount
+&#x20;       DECIMAL total\_amount
 
 &#x20;       int customer\_id FK
 
@@ -60,7 +60,7 @@ erDiagram
 
 &#x20;       int quantity
 
-&#x20;       float price\_at\_purchase
+&#x20;       DECIMAL price\_at\_purchase
 
 &#x20;   }
 
