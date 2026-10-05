@@ -27,4 +27,5 @@
 \## Критерії прийняття
 
 * Для всіх грошових полів (price, price\_at\_purchase, total\_amount) використовувати тип DECIMAL.
+* Всі назви сутностей повинні бути у форматі PascalCase (наприклад, Customer, а не CUSTOMER).
 

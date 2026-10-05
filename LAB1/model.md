@@ -1,6 +1,6 @@
 erDiagram
 
-&#x20;   CUSTOMER {
+&#x20;   Customer {
 
 &#x20;       int id PK
 
@@ -12,7 +12,7 @@ erDiagram
 
 &#x20;   
 
-&#x20;   BOOK {
+&#x20;   Book {
 
 &#x20;       int id PK
 
@@ -24,7 +24,7 @@ erDiagram
 
 &#x20;   
 
-&#x20;   AUTHOR {
+&#x20;   Author {
 
 &#x20;       int id PK
 
@@ -36,7 +36,7 @@ erDiagram
 
 &#x20;   
 
-&#x20;   ORDER {
+&#x20;   Order {
 
 &#x20;       int id PK
 
@@ -52,7 +52,7 @@ erDiagram
 
 &#x20;   
 
-&#x20;   ORDER\_ITEM {
+&#x20;   OrderItem {
 
 &#x20;       int order\_id PK, FK
 
@@ -68,11 +68,11 @@ erDiagram
 
 &#x20;   %% Зв'язки
 
-&#x20;   CUSTOMER ||--o{ ORDER : "має (1:N)"
+&#x20;   Customer ||--o{ Order : "має (1:N)"
 
-&#x20;   AUTHOR }|--|{ BOOK : "написав (M:N)"
+&#x20;   Author }|--|{ Book : "написав (M:N)"
 
-&#x20;   ORDER ||--|{ ORDER\_ITEM : "містить (1:N до асоціативної)"
+&#x20;   Order ||--|{ OrderItem : "містить (1:N до асоціативної)"
 
-&#x20;   BOOK ||--o{ ORDER\_ITEM : "включена в (1:N до асоціативної)"
+&#x20;   Book ||--o{ OrderItem : "включена в (1:N до асоціативної)"
 
