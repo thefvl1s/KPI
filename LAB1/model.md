@@ -70,7 +70,7 @@ erDiagram
 
 &#x20;   Customer ||--o{ Order : "має (1:N)"
 
-&#x20;   Author }|--|{ Book : "написав (M:N)"
+&#x20;   Author }o--o{ Book : "написав (M:N)"
 
 &#x20;   Order ||--|{ OrderItem : "містить (1:N до асоціативної)"
 
