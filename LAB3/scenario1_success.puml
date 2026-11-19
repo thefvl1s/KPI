@@ -54,6 +54,11 @@ activate CheckoutUI
 CheckoutUI -> OrderService: processPayment(orderId, paymentDetails)
 activate OrderService
 
+OrderService -> OrderRepository: getOrderById(orderId)
+activate OrderRepository
+OrderRepository --> OrderService: order(status="Очікує на оплату", total_amount)
+deactivate OrderRepository
+
 OrderService -> CartRepository: lockCart(customerId)
 activate CartRepository
 CartRepository --> OrderService: cartLocked
