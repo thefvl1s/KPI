@@ -29,7 +29,7 @@ activate PaymentGateway
 PaymentGateway --> OrderService: paymentDeclined("Недостатньо коштів")
 deactivate PaymentGateway
 
-alt платіж відхилено (недостатньо коштів)
+opt платіж відхилено (недостатньо коштів)
   OrderService -> CartRepository: unlockCart(customerId)
   activate CartRepository
   CartRepository --> OrderService: cartUnlocked
