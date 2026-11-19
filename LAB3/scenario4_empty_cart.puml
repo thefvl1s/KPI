@@ -1,0 +1,29 @@
+@startuml
+title Сценарій 4: Спроба чекауту з порожнім кошиком
+
+actor Customer
+participant CheckoutUI
+participant OrderService
+database CartRepository
+
+Customer -> CheckoutUI: openCheckoutPage()
+activate CheckoutUI
+
+CheckoutUI -> OrderService: validateCart(customerId)
+activate OrderService
+
+OrderService -> CartRepository: getCartItems(customerId)
+activate CartRepository
+CartRepository --> OrderService: cartItems = []
+deactivate CartRepository
+
+OrderService --> CheckoutUI: cartValidationResult(isEmpty=true)
+deactivate OrderService
+
+alt кошик порожній
+  CheckoutUI -> CheckoutUI: disableCheckoutButton()
+  CheckoutUI --> Customer: showMessage("Додайте товари до кошика")
+end
+
+deactivate CheckoutUI
+@enduml
