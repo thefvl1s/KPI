@@ -1,0 +1,49 @@
+@startuml
+title Сценарій 2: Відхилення платежу через недостатню кількість коштів
+
+actor Customer
+participant CheckoutUI
+participant OrderService
+database OrderRepository
+database CartRepository
+participant PaymentGateway
+
+Customer -> CheckoutUI: submitPayment(orderId, paymentDetails)
+activate CheckoutUI
+
+CheckoutUI -> OrderService: processPayment(orderId, paymentDetails)
+activate OrderService
+
+OrderService -> OrderRepository: getOrderById(orderId)
+activate OrderRepository
+OrderRepository --> OrderService: order(status="Очікує на оплату", total_amount)
+deactivate OrderRepository
+
+OrderService -> CartRepository: lockCart(customerId)
+activate CartRepository
+CartRepository --> OrderService: cartLocked
+deactivate CartRepository
+
+OrderService -> PaymentGateway: charge(orderId, total_amount, paymentDetails)
+activate PaymentGateway
+PaymentGateway --> OrderService: paymentDeclined("Недостатньо коштів")
+deactivate PaymentGateway
+
+opt платіж відхилено (недостатньо коштів)
+  OrderService -> CartRepository: unlockCart(customerId)
+  activate CartRepository
+  CartRepository --> OrderService: cartUnlocked
+  deactivate CartRepository
+
+  note right of OrderService
+    Статус замовлення в БД не змінюється
+    ("Очікує на оплату")
+  end note
+end
+
+OrderService --> CheckoutUI: paymentError("Недостатньо коштів")
+deactivate OrderService
+
+CheckoutUI --> Customer: showErrorMessage("Недостатньо коштів")
+deactivate CheckoutUI
+@enduml

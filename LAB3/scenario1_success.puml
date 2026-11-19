@@ -1,0 +1,89 @@
+@startuml
+title Сценарій 1: Успішне оформлення замовлення та оплата
+
+actor Customer
+participant CheckoutUI
+participant OrderService
+database CartRepository
+database BookRepository
+database OrderRepository
+participant PaymentGateway
+
+Customer -> CheckoutUI: clickCheckout()
+activate CheckoutUI
+
+CheckoutUI -> OrderService: createOrder(customerId)
+activate OrderService
+
+OrderService -> CartRepository: getCartItems(customerId)
+activate CartRepository
+CartRepository --> OrderService: cartItems
+deactivate CartRepository
+
+OrderService -> OrderRepository: createOrder(customerId, order_date, "Очікує на оплату")
+activate OrderRepository
+OrderRepository --> OrderService: orderId
+deactivate OrderRepository
+
+loop для кожної книги в кошику
+  OrderService -> BookRepository: getBookPrice(bookId)
+  activate BookRepository
+  BookRepository --> OrderService: price
+  deactivate BookRepository
+
+  OrderService -> OrderRepository: saveOrderItem(orderId, bookId, quantity, price_at_purchase)
+  activate OrderRepository
+  OrderRepository --> OrderService: itemSaved
+  deactivate OrderRepository
+end
+
+OrderService -> OrderRepository: updateTotalAmount(orderId, total_amount)
+activate OrderRepository
+OrderRepository --> OrderService: updated
+deactivate OrderRepository
+
+OrderService --> CheckoutUI: orderSummary(orderId, total_amount)
+deactivate OrderService
+
+CheckoutUI --> Customer: showPaymentForm(total_amount)
+deactivate CheckoutUI
+
+Customer -> CheckoutUI: submitPayment(orderId, paymentDetails)
+activate CheckoutUI
+
+CheckoutUI -> OrderService: processPayment(orderId, paymentDetails)
+activate OrderService
+
+OrderService -> OrderRepository: getOrderById(orderId)
+activate OrderRepository
+OrderRepository --> OrderService: order(status="Очікує на оплату", total_amount)
+deactivate OrderRepository
+
+OrderService -> CartRepository: lockCart(customerId)
+activate CartRepository
+CartRepository --> OrderService: cartLocked
+deactivate CartRepository
+
+OrderService -> PaymentGateway: charge(orderId, total_amount, paymentDetails)
+activate PaymentGateway
+PaymentGateway --> OrderService: paymentSuccess(transactionId)
+deactivate PaymentGateway
+
+opt оплата успішна
+  OrderService -> OrderRepository: updateOrderStatus(orderId, "Оплачено")
+  activate OrderRepository
+  OrderRepository --> OrderService: statusUpdated
+  deactivate OrderRepository
+
+  OrderService -> CartRepository: clearCart(customerId)
+  activate CartRepository
+  CartRepository --> OrderService: cartCleared
+  deactivate CartRepository
+end
+
+OrderService --> CheckoutUI: paymentConfirmed(orderId)
+deactivate OrderService
+
+CheckoutUI --> Customer: showOrderConfirmation(orderId)
+deactivate CheckoutUI
+@enduml

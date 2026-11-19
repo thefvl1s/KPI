@@ -3,28 +3,18 @@ left to right direction
 
 actor "Гість (Guest)" as Guest
 actor "Авторизований Клієнт (Customer)" as Customer
-actor "Платіжна система (Payment Processor)" as PaymentProcessor
 
 Guest <|-- Customer : <<generalization>>
 
 rectangle "Інтернет-магазин книг" {
     usecase "Перегляд каталогу книг" as UC1
-    usecase "Додавання книги до кошика" as UC2
     usecase "Авторизація в системі" as UC_Login
+    usecase "Додавання книги до кошика" as UC2
     usecase "Оформлення замовлення (Checkout)" as UC3
-    usecase "Розрахунок загальної вартості" as UC_Calc
-    usecase "Обробка платежу" as UC4
-    usecase "Обробка помилки оплати" as UC_Error
 }
 
 Guest --> UC1
 Guest --> UC_Login
 Customer --> UC2
 Customer --> UC3
-
-UC3 ..> UC_Calc : <<include>>
-UC3 ..> UC4 : <<include>>
-UC4 --> PaymentProcessor
-
-UC_Error ..> UC4 : <<extend>>
 @enduml
