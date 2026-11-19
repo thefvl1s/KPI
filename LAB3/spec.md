@@ -24,7 +24,7 @@
 
 ### Сценарій 1: Успішне оформлення замовлення та оплата
 1. Клієнт натискає «Оформити замовлення» в `CheckoutUI`.
-2. `OrderService` отримує товари з `CartRepository`, у циклі (`loop`) бере актуальні ціни з `BookRepository`, створює `Order` зі статусом «Очікує на оплату» та зберігає `OrderItem` із `price_at_purchase` через `OrderRepository`.
+2. OrderService отримує товари з CartRepository, у циклі (loop) бере актуальні ціни з BookRepository, створює Order із фіксацією order_date та статусом «Очікує на оплату» і зберігає OrderItem із price_at_purchase через OrderRepository.
 3. Клієнт вводить платіжні дані та підтверджує оплату.
 4. `OrderService` блокує кошик (`lockCart()`), відправляє запит на `PaymentGateway`, отримує «Успішно», оновлює статус `Order` на «Оплачено» в `OrderRepository` та очищає кошик (`clearCart()`).
 5. `CheckoutUI` відображає підтвердження замовлення.

@@ -20,7 +20,7 @@ activate CartRepository
 CartRepository --> OrderService: cartItems
 deactivate CartRepository
 
-OrderService -> OrderRepository: createOrder(customerId, "Очікує на оплату")
+OrderService -> OrderRepository: createOrder(customerId, order_date, "Очікує на оплату")
 activate OrderRepository
 OrderRepository --> OrderService: orderId
 deactivate OrderRepository
